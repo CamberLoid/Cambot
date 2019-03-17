@@ -1,10 +1,11 @@
 """
-是个重复造的轮子，没错了
-功能十分简单 懒得写文档
+是个重复造的轮子，没错了  
+功能十分简单 懒得写文档  
 
-非异步版本
+同步版本
 """
 import requests,base64,asyncio,aiohttp,requests_oauthlib
+import os,sys
 
 api = 'https://api.twitter.com/'
 
@@ -49,5 +50,3 @@ class CamTweet(CamTweetBase):
         if returnRaw: return ret
         ret.raise_for_status()
         return ret.json()
-    async def AFetchTimeline(self):
-        pass
