@@ -17,16 +17,27 @@ def dumpJSON(cfg,path='config.json'):
     return None
 
 config = readJSON()
-TGBot = pass
+TGBot = aiogram.Bot(token="")
 TwApp = CamTweet.CamTweet()
 
-async def poll(pollList:list,
-    twapp:CamTweet.CamTweet,
-    tgbot):
+async def poll(pollList:list):
+
+    while(true):
+        asyncio.wait()
+async def _poll(search:str,):
+    
+    if True:
+        await TGBot.send_message()
+
+async def reg():
+
     pass
 
-async def main():
-    
-
 loop = asyncio.get_event_loop()
+
+#让异步脚本跑起来
+loop.create_task([poll(),reg()])
+print("OnRunning...")
+
+#防止死掉
 loop.run_forever()

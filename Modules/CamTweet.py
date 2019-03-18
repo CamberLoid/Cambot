@@ -1,8 +1,6 @@
 """
 是个重复造的轮子，没错了  
-功能十分简单 懒得写文档  
-
-同步版本
+功能十分简单  
 """
 import requests,base64,asyncio,aiohttp,requests_oauthlib
 import os,sys
@@ -34,9 +32,10 @@ class CamTweet(CamTweetBase):
                     kwargs.get('user'),kwargs.get('pswd')
                 )
         super().__init__(auth)
-    def fetchTimeline(self,
-        scrname=None,userid=None,
+
+    def fetchTimeline(self,scrname=None,userid=None,
         count=1,returnRaw=False,*args,**kwargs):
+        """拉取时间线的同步实现"""
         assert scrname!=None or userid!=None
         url= api+"1.1/statuses/user_timeline.json"
         headers={
@@ -50,3 +49,22 @@ class CamTweet(CamTweetBase):
         if returnRaw: return ret
         ret.raise_for_status()
         return ret.json()
+
+    async def AfetchTimeline(self,scrname=None,userid=None,
+        count=1,returnRaw=False,*args,**kwargs):
+        """拉取时间线的异步实现"""
+        assert scrname!=None or userid!=None
+        url= api+"1.1/statuses/user_timeline.json"
+        headers={
+            "Authorization":"Bearer "+self.auth
+        }
+        params={}
+        if userid!=None:params["userid"]=userid
+        else:params["screen_name"]=scrname
+        params['count']=count
+        async with aiohttp.ClientSession() as sess:
+            async with sess.get(url,headers=headers,params=params) as ret:
+                ret.raise_for_status()
+                return await ret.json()
+        pass
+    
